@@ -13,9 +13,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.register = register;
+exports.login = login;
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const config_1 = require("../config");
 const UserDao_1 = __importDefault(require("../daos/UserDao"));
+const LibraryErrors_1 = require("../utils/LibraryErrors");
 function register(user) {
     return __awaiter(this, void 0, void 0, function* () {
         const ROUNDS = config_1.config.server.rounds;
@@ -25,7 +27,30 @@ function register(user) {
             return yield saved.save();
         }
         catch (error) {
-            throw new Error("Unable to create user at this time");
+            throw new LibraryErrors_1.UnableToSaveUserError(error.message);
+        }
+    });
+}
+function login(credentials) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const { email, password } = credentials;
+        try {
+            const user = yield UserDao_1.default.findOne({ email });
+            if (!user) {
+                throw new LibraryErrors_1.InvalidUsernameOrPasswordError("Invalid username or password");
+            }
+            else {
+                const validPassword = yield bcrypt_1.default.compare(password, user.password);
+                if (validPassword) {
+                    return user;
+                }
+                else {
+                    throw new LibraryErrors_1.InvalidUsernameOrPasswordError("Invalid username or password");
+                }
+            }
+        }
+        catch (error) {
+            throw error;
         }
     });
 }

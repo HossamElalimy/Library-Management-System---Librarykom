@@ -5,7 +5,8 @@ dotenv.config();
 const MONGO_USERNAME:string = process.env.MONGO_USERNAME || '';
 const MONGO_PASSWORD:string=process.env.MONGO_PASSWORD || '';
 
-const MONGO_URL:string = `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@localhost:27017/librarydb`
+const MONGO_URL: string = `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@localhost:27017/librarydb?authSource=librarydb`;
+
 
 const PORT:number = process.env.SERVER_PORT ? Number(process.env.SERVER_PORT):8000;
 const ROUNDS:number = process.env.SERVER_ROUNDS ? Number(process.env.SERVER_ROUNDS):Math.floor(Math.random()*11);
