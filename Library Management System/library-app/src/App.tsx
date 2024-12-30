@@ -1,15 +1,23 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
+import { useSelector } from "react-redux";
+import  {RootState} from "./redux/ReduxStore";
 import HomePage from "./pages/HomePage/HomePage";
-import { User } from "./models/User";
+
 
 function App() {
   
-  const[displayLogin,setDisplayLogin]=useState<boolean>(true);
-  const[loggedInUser,setLoggednInUser]=useState<User>();
+  const loggedInUser = useSelector((state:RootState)=>state.authentication.loggedInUser);
+ 
+
+ 
+
+  useEffect(()=>{
+    console.log(loggedInUser);
+  },[loggedInUser])
 
   return (
    <div>
-      <HomePage displayLogin={displayLogin}/>
+      <HomePage/>
    </div>
   )
 }

@@ -1,13 +1,17 @@
-interface HomePageProps{
-    displayLogin: boolean
-}
+import {useSelector} from 'react-redux';
+import {RootState} from '../../redux/ReduxStore';
+
+import { LoginRegisterModal } from '../../features/authentication';
 
 
-export default function HomePage(props:HomePageProps):JSX.Element{
+
+export default function HomePage():JSX.Element{
+
+    const displayLogin = useSelector((state:RootState)=>state.modal.displayLogin);
     return(
         <div className="page">
             Home Page
-            {props.displayLogin ? <p>Display The Login Form</p>: <></>}
+            {displayLogin ? <LoginRegisterModal/> : <></>}
         </div>
     )
 }
