@@ -1,0 +1,17 @@
+builder.addCase(queryBooks.pending, (state, action) => {
+  state = {
+    ...state,
+    books: [],
+    loading: true,
+  };
+  return state;
+});
+
+builder.addCase(fetchAllBooks.fulfilled, (state, action) => {
+  state = {
+    ...state,
+    books: action.payload,
+    loading: false,
+  };
+  return state;
+});

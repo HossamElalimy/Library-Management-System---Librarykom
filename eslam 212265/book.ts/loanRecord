@@ -1,0 +1,17 @@
+export async function findAllRecords(): Promise<ILoanRecordModel[]> {
+  try {
+    return await LoanRecordDao.find();
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function queryRecords(params: { property: string; value: string | Date }): Promise<ILoanRecordModel[]> {
+  try {
+    return await LoanRecordDao.find({ [params.property]: params.value })
+      .populate('item')
+      .sort('-loanedDate');
+  } catch (error) {
+    throw error;
+  }
+}
